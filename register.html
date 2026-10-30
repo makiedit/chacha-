@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>የአባላት/ተማሪዎች ምዝገባ - ሰንበት ትምህርት ቤት</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <div class="logo">
+        <i class="fa-solid fa-church"></i>
+        <span>ሰንበት ት/ቤት</span>
+      </div>
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html">መነሻ</a></li>
+          <li><a href="index.html#about">ስለ እኛ</a></li>
+          <li><a href="index.html#services">አገልግሎቶች</a></li>
+          <li><a href="index.html#announcements">ማስታወቂያዎች</a></li>
+          <li><a href="#contact">አድራሻ</a></li>
+        </ul>
+      </nav>
+      <a href="register.html" class="btn btn-primary nav-btn">ተመዝገብ</a>
+      <div class="hamburger" id="hamburger">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Registration Section -->
+  <section class="registration-section">
+    <div class="container">
+      <div class="form-container">
+        <div class="form-header">
+          <h2><i class="fa-solid fa-user-plus"></i> የሰንበት ትምህርት ቤት ምዝገባ ቅጽ</h2>
+          <p>እባክዎን ከዚህ በታች ያሉትን መረጃዎች በትክክል ይሙሉ</p>
+        </div>
+
+        <form id="registrationForm" class="registration-form">
+          
+          <div class="form-group">
+            <label for="fullName">ሙሉ ስም (ከነአያት)</label>
+            <input type="text" id="fullName" placeholder="ለምሳሌ፡ ከበደ አለሙ ተሰማ" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="gender">ፆታ</label>
+              <select id="gender" required>
+                <option value="">ይምረጡ</option>
+                <option value="ወንድ">ወንድ</option>
+                <option value="ሴት">ሴት</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="age">እድሜ</label>
+              <input type="number" id="age" min="5" max="100" placeholder="እድሜ" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">የስልክ ቁጥር</label>
+              <input type="tel" id="phone" placeholder="09xxxxxxxx" required>
+            </div>
+
+            <div class="form-group">
+              <label for="department">መመዝገብ  የሚፈልጉት ክፍል</label>
+              <select id="department" required>
+                <option value="">ይምረጡ</option>
+                <option value="ትምህርት ክፍል">1ኛ ክፍል</option>
+                <option value="የኪነ-ጥበብ/መዝሙር ክፍል">2ኛ ክፍል</option>
+                <option value="የሕፃናት ክፍል">5ኛ ክፍል</option>
+                <option value="የብዙሃን መገናኛ (ሚዲያ)">12ኛ ክፍል</option>
+                <option value="የልማትና በጎ አድራጎት">11ኛ ክፍል</option>
+                <option value="kfl">10ኛ ክፍል</option>
+                <option value="kkl">3ኛ ክፍል</option>
+                <option value="kfl">4ኛ ክፍል</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="address">የመኖሪያ አድራሻ (ክፍለ ከተማ / ወረዳ)</label>
+            <input type="text" id="address" placeholder="ለምሳሌ፡ አራዳ ክፍለ ከተማ ወረዳ 03" required>
+          </div>
+
+          <div class="form-group">
+            <label for="christianName">የክርስትና ስም (ካለዎት)</label>
+            <input type="text" id="christianName" placeholder="የክርስትና ስም">
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">ምዝገባውን አጠናቅቅ</button>
+        </form>
+
+        <div id="successMessage" class="success-message" style="display: none;">
+          <i class="fa-solid fa-circle-check"></i>
+          <h3>ምዝገባዎ በስኬት ተጠናቅቋል!</h3>
+          <p>በቅርብ ጊዜ በሰጡን የስልክ ቁጥር እንገናኝዎታለን።</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact" class="footer">
+    <div class="container footer-content">
+      <div class="footer-info">
+        <h3><i class="fa-solid fa-church"></i> የሰንበት ትምህርት ቤት</h3>
+        <p>በመንፈሳዊ እውቀትና በበጎ ምግባር ታንጾ ማደግ!</p>
+      </div>
+      <div class="footer-links">
+        <h4>ፈጣን ሊንኮች</h4>
+        <ul>
+          <li><a href="index.html">መነሻ</a></li>
+          <li><a href="index.html#about">ስለ እኛ</a></li>
+          <li><a href="index.html#services">አገልግሎቶች</a></li>
+        </ul>
+      </div>
+      <div class="footer-social">
+        <h4>ይከተሉን</h4>
+        <div class="social-icons">
+          <a href="#"><i class="fa-brands fa-telegram"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 የሰንበት ትምህርት ቤት. መብቱ በሕግ የተጠበቀ ነው::</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>`

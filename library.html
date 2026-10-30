@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>መጻሕፍት እና ትምህርቶች - ሰንበት ትምህርት ቤት</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <div class="logo">
+        <i class="fa-solid fa-church"></i>
+        <span>ሰንበት ት/ቤት</span>
+      </div>
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html">መነሻ</a></li>
+          <li><a href="library.html" class="active">ትምህርቶች እና መጻሕፍት</a></li>
+          <li><a href="index.html#services">አገልግሎቶች</a></li>
+          <li><a href="index.html#announcements">ማስታወቂያዎች</a></li>
+          <li><a href="#contact">አድራሻ</a></li>
+        </ul>
+      </nav>
+      <a href="register.html" class="btn btn-primary nav-btn">ተመዝገብ</a>
+      <div class="hamburger" id="hamburger">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h2><i class="fa-solid fa-book-open"></i> የትምህርቶች እና መጻሕፍት ማዕከል</h2>
+      <p>እዚህ መንፈሳዊ መጻሕፍትን፣ የትምህርት ፅሁፎችን እና የኦዲዮ ትምህርቶችን ማግኘት እና ማውረድ ይችላሉ።</p>
+    </div>
+  </section>
+
+  <!-- Library Section -->
+  <section class="library-section">
+    <div class="container">
+      
+      <!-- Search & Filter Bar -->
+      <div class="search-filter-box">
+        <div class="search-input">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="searchInput" placeholder="መጽሐፍ ወይም የትምህርት ርዕስ ይፈልጉ...">
+        </div>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter="all">ሁሉም</button>
+          <button class="filter-btn" data-filter="theology">ነገረ-ሃይማኖት</button>
+          <button class="filter-btn" data-filter="history">የቤተክርስቲያን ታሪክ</button>
+          <button class="filter-btn" data-filter="audio">ኦዲዮ/ስብከት</button>
+        </div>
+      </div>
+
+      <!-- Resource Grid -->
+      <div class="resources-grid" id="resourcesGrid">
+
+        <!-- Book Card 1 -->
+        <div class="resource-card" data-category="theology">
+          <div class="card-badge">PDF</div>
+          <div class="card-icon">
+            <i class="fa-solid fa-book-bible"></i>
+          </div>
+          <div class="card-content">
+            <h3>የመናፍቃ ጥያቀ እና መልሶቻቸው </h3>
+            <p class="author"><i class="fa-solid fa-user"></i> በትምህርት ክፍል የተዘጋጀ</p>
+            <p class="description">ስለ ኦርቶዶክሳዊት ተዋህዶ የሚነሱ ጥያቀ::</p>
+            <div class="card-footer">
+              <span class="file-size"><i class="fa-solid fa-file-pdf"></i> 2.4 MB</span>
+              <a href="የመናፍቃን_ጥያቄዎች_እና_መልሶቻቸው_@eotc_books_by_pdf.pdf" class="download-btn" download><i class="fa-solid fa-download"></i> አውርድ</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book Card 2 -->
+        <div class="resource-card" data-category="history">
+          <div class="card-badge">PDF</div>
+          <div class="card-icon">
+            <i class="fa-solid fa-landmark"></i>
+          </div>
+          <div class="card-content">
+            <h3>የቤተክርስቲያን ታሪክ በአለም አቀፍ ደረጃ</h3>
+            <p class="author"><i class="fa-solid fa-user"></i> የሰንበት ትምህርት ቤት መምህራን</p>
+            <p class="description">ከሐዋርያት ዘመን ጀምሮ እስከ አሁኑ ዘመን ድረስ ያለውን የቤተክርስቲያን ጉዞ የሚያስረዳ መጽሐፍ::</p>
+            <div class="card-footer">
+              <span class="file-size"><i class="fa-solid fa-file-pdf"></i> 4.1 MB</span>
+              <a href="የቤተ  ክርስቲያን  ታሪክ  g.pptx" class="download-btn" download><i class="fa-solid fa-download"></i> አውርድ</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book Card 3 (Audio Lesson) -->
+        <div class="resource-card" data-category="audio">
+          <div class="card-badge audio-badge">AUDIO</div>
+          <div class="card-icon audio-icon">
+            <i class="fa-solid fa-headphones"></i>
+          </div>
+          <div class="card-content">
+            <h3>የነገረ-ማርያም ትምህርት (ክፍል 1)</h3>
+            <p class="author"><i class="fa-solid fa-microphone"></i> በሰንበት ት/ቤት መምህራን</p>
+            <p class="description">ስለ እመቤታችን ቅድስት ድንግል ማርያም ክብርና አማላጅነት የተሰጠ የኦዲዮ ትምህርት::</p>
+            <div class="audio-player">
+              <audio controls>
+                <source src="audio.mp3" type="audio/mpeg">
+                ብራውዘርዎ ኦዲዮ አይደግፍም።
+              </audio>
+            </div>
+            <div class="card-footer">
+              <span class="file-size"><i class="fa-solid fa-file-audio"></i> 12.5 MB</span>
+              <a href="audio.wma" class="download-btn" download><i class="fa-solid fa-download"></i> አውርድ</a>
+            </div>
+          </div>
+        </div>
+<!-- Book Card 5 (Audio Lesson) -->
+        <div class="resource-card" data-category="audio">
+          <div class="card-badge audio-badge">AUDIO</div>
+          <div class="card-icon audio-icon">
+            <i class="fa-solid fa-headphones"></i>
+          </div>
+          <div class="card-content">
+            <h3>የነገረ-ማርያም ትምህርት (ክፍል 2)</h3>
+            <p class="author"><i class="fa-solid fa-microphone"></i> በሰንበት ት/ቤት መምህራን</p>
+            <p class="description">ስለ እመቤታችን ቅድስት ድንግል ማርያም ክብርና አማላጅነት የተሰጠ የኦዲዮ ትምህርት::</p>
+            <div class="audio-player">
+              <audio controls>
+                <source src="audio.mp3" type="audio/mpeg">
+                ብራውዘርዎ ኦዲዮ አይደግፍም።
+              </audio>
+            </div>
+            <div class="card-footer">
+              <span class="file-size"><i class="fa-solid fa-file-audio"></i> 12.5 MB</span>
+              <a href="audio2.mp3" class="download-btn" download><i class="fa-solid fa-download"></i> አውርድ</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book Card 4 -->
+        <div class="resource-card" data-category="theology">
+          <div class="card-badge">PDF</div>
+          <div class="card-icon">
+            <i class="fa-solid fa-scroll"></i>
+          </div>
+          <div class="card-content">
+            <h3>የግዕዝ ቋንቋ መማሪያ (ቀዳማይ ደረጃ)</h3>
+            <p class="author"><i class="fa-solid fa-user"></i> የግዕዝ ክፍል</p>
+            <p class="description">ለጀማሪዎች የተዘጋጀ የግዕዝ ፊደላት፣ ቃላት እና ቀላል አረፍተ ነገሮች መማሪያ::</p>
+            <div class="card-footer">
+              <span class="file-size"><i class="fa-solid fa-file-pdf"></i> 1.8 MB</span>
+              <a href="ውዳሴ ማርያም ትርጓሜና አንድምታው.pdf" class="download-btn" download><i class="fa-solid fa-download"></i> አውርድ</a>
+            </div>
+         
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact" class="footer">
+    <div class="container footer-content">
+      <div class="footer-info">
+        <h3><i class="fa-solid fa-church"></i> የሰንበት ትምህርት ቤት</h3>
+        <p>በመንፈሳዊ እውቀትና በበጎ ምግባር ታንጾ ማደግ!</p>
+      </div>
+      <div class="footer-links">
+        <h4>ፈጣን ሊንኮች</h4>
+        <ul>
+          <li><a href="index.html">መነሻ</a></li>
+          <li><a href="library.html">ትምህርቶች</a></li>
+          <li><a href="register.html">ምዝገባ</a></li>
+        </ul>
+      </div>
+      <div class="footer-social">
+        <h4>ይከተሉን</h4>
+        <div class="social-icons">
+          <a href="#"><i class="fa-brands fa-telegram"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 የሰንበት ትምህርት ቤት. መብቱ በሕግ የተጠበቀ ነው::</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

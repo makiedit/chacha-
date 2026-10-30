@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>የአድሚን ማስተዳደሪያ ገጽ</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+    body { background-color: #f4f6f9; padding: 20px; }
+    .container { max-width: 900px; margin: auto; }
+    
+    /* Login Box */
+    .login-card { max-width: 380px; margin: 80px auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; }
+    .login-card input { width: 100%; padding: 10px; margin: 12px 0; border: 1px solid #ccc; border-radius: 5px; }
+    
+    /* Admin Box */
+    .admin-card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 20px; }
+    .btn { padding: 10px 18px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; }
+    .btn-primary { background: #8b0000; color: #fff; }
+    .btn-danger { background: #dc3545; color: #fff; padding: 6px 12px; font-size: 0.85rem; }
+    .btn-secondary { background: #555; color: #fff; }
+    
+    /* Form Styles */
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
+    .form-group input, .form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    
+    /* Photo List Grid */
+    .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+    .photo-item { background: #fff; border: 1px solid #ddd; border-radius: 6px; overflow: hidden; text-align: center; padding-bottom: 10px; }
+    .photo-item img { width: 100%; height: 140px; object-fit: cover; }
+    .photo-item h4 { font-size: 0.9rem; margin: 8px 5px; }
+    .photo-item p { font-size: 0.75rem; color: #777; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- 1. መግቢያ (LOGIN) SECTION -->
+    <div id="loginCard" class="login-card">
+      <h2 style="color:#8b0000;"><i class="fa-solid fa-lock"></i> የአድሚን መግቢያ</h2>
+      <p style="font-size:0.85rem; color:#666; margin-top:5px;">የይለፍ ቃል ያስገቡ (ነባሪ፡ 1234)</p>
+      <input type="password" id="passInput" placeholder="Password">
+      <button onclick="login()" class="btn btn-primary" style="width: 100%;">ግበታ (Login)</button>
+      <p id="errMsg" style="color:red; display:none; margin-top:10px; font-size:0.85rem;">የተሳሳተ የይለፍ ቃል ነው!</p>
+    </div>
+
+    <!-- 2. የአድሚን ማስተዳደሪያ (ADMIN DASHBOARD) SECTION -->
+    <div id="adminDash" style="display: none;">
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h2><i class="fa-solid fa-user-shield"></i> የፎቶዎች ማስተዳደሪያ</h2>
+        <div>
+          <a href="index.html" class="btn btn-secondary" target="_blank"><i class="fa-solid fa-eye"></i> ገጹን እይ</a>
+          <button onclick="logout()" class="btn" style="background:#888; color:#fff;">ውጣ</button>
+        </div>
+      </div>
+
+      <!-- አዲስ ፎቶ መጫኛ ፎርም -->
+      <div class="admin-card">
+        <h3><i class="fa-solid fa-plus-circle"></i> አዲስ ፎቶ ጨምር</h3>
+        <form id="addForm" style="margin-top:15px;">
+          <div class="form-group">
+            <label>የፎቶው ርዕስ</label>
+            <input type="text" id="pTitle" placeholder="ለምሳሌ፡ የደመራ በዓል" required>
+          </div>
+          <div class="form-group">
+            <label>ምድብ (Category)</label>
+            <select id="pCat">
+              <option value="holidays">በዓላት</option>
+              <option value="trips">መንፈሳዊ ጉዞ</option>
+              <option value="classes">ትምህርትና መዝሙር</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>የፎቶው ሊንክ (URL) ወይም Image Address</label>
+            <input type="url" id="pUrl" placeholder="https://example.com/photo.jpg" required>
+            <small style="color:#666; font-size:0.75rem;">(ማስታወሻ፦ ፎቶውን Telegram ወይም Google ላይ Copy Image Address አድርገህ ሊንኩን ለጥፈው)</small>
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-upload"></i> ፎቶውን ልቀቅ</button>
+        </form>
+      </div>
+
+      <!-- የፎቶዎች ዝርዝርና ማጥፊያ -->
+      <div class="admin-card">
+        <h3><i class="fa-solid fa-images"></i> የነበሩ ፎቶዎች (<span id="count">0</span>)</h3>
+        <div class="photo-grid" id="adminPhotoList"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const PASS = "admin2319"; // የይለፍ ቃል
+
+    // ነባሪ ፎቶዎች (መጀመሪያ ላይ የሚታዩ)
+    const defaultPhotos = [
+      { id: 1, title: "የደመራ በዓል አከባበር", cat: "holidays", catName: "በዓላት", url: "https://images.unsplash.com/photo-1548625149-fc4a29cf7092?auto=format&fit=crop&w=600&q=80" },
+      { id: 2, title: "የሰንበት ትምህርት ጥናት", cat: "classes", catName: "ትምህርትና መዝሙር", url: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=600&q=80" }
+    ];
+
+    function getStoredPhotos() {
+      const stored = localStorage.getItem('sundayschool_photos');
+      if (!stored) {
+        localStorage.setItem('sundayschool_photos', JSON.stringify(defaultPhotos));
+        return defaultPhotos;
+      }
+      return JSON.parse(stored);
+    }
+
+    function login() {
+      const input = document.getElementById('passInput').value;
+      if (input === PASS) {
+        document.getElementById('loginCard').style.display = 'none';
+        document.getElementById('adminDash').style.display = 'block';
+        renderAdminList();
+      } else {
+        document.getElementById('errMsg').style.display = 'block';
+      }
+    }
+
+    function logout() {
+      location.reload();
+    }
+
+    function renderAdminList() {
+      const photos = getStoredPhotos();
+      const listDiv = document.getElementById('adminPhotoList');
+      document.getElementById('count').innerText = photos.length;
+      listDiv.innerHTML = '';
+
+      photos.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'photo-item';
+        div.innerHTML = `
+          <img src="${item.url}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/150?text=Error'">
+          <h4>${item.title}</h4>
+          <p>${item.catName}</p>
+          <button class="btn btn-danger" onclick="deletePhoto(${item.id})"><i class="fa-solid fa-trash"></i> አጥፋ</button>
+        `;
+        listDiv.appendChild(div);
+      });
+    }
+
+    // ፎቶ መጨመር
+    document.getElementById('addForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const title = document.getElementById('pTitle').value;
+      const cat = document.getElementById('pCat').value;
+      const catName = document.getElementById('pCat').options[document.getElementById('pCat').selectedIndex].text;
+      const url = document.getElementById('pUrl').value;
+
+      const photos = getStoredPhotos();
+      photos.unshift({ id: Date.now(), title, cat, catName, url });
+      
+      localStorage.setItem('sundayschool_photos', JSON.stringify(photos));
+      renderAdminList();
+      this.reset();
+      alert('ፎቶው በስኬት ተጨምሯል!');
+    });
+
+    // ፎቶ ማጥፋት
+    function deletePhoto(id) {
+      if (confirm('እርግጠኛ ነዎት ይህን ፎቶ ማጥፋት ይፈልጋሉ?')) {
+        let photos = getStoredPhotos();
+        photos = photos.filter(p => p.id !== id);
+        localStorage.setItem('sundayschool_photos', JSON.stringify(photos));
+        renderAdminList();
+      }
+    }
+  </script>
+</body>
+</html>
