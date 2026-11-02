@@ -71,12 +71,9 @@
             </select>
           </div>
           <div class="form-group">
-            <label>ፎቶ ይምረጡ (Choose Image)</label>
-            <input type="file" id="pImageFile" accept="image/*" required style="padding: 5px; background: #fafafa;">
-          </div>
-          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-upload"></i> ፎቶውን ጫን</button>
-        </form>
-      </div>
+  <label>የፎቶው ሊንክ (URL) - (ለምሳሌ፡ ከ Telegram ወይም Google የተወሰደ)</label>
+  <input type="url" id="pUrl" placeholder="https://..." required>
+</div>
 
       <!-- የፎቶዎች ዝርዝርና ማጥፊያ -->
       <div class="admin-card">
@@ -139,29 +136,21 @@
       });
     }
 
-    // ፎቶን ከፋይል ተቀብሎ ወደ Base64 በመቀየር ማስቀመጥ
+    // ፎቶውን በ URL (ሊንክ) መቀበል እና ማስቀመጥ
     document.getElementById('addForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const title = document.getElementById('pTitle').value;
       const cat = document.getElementById('pCat').value;
       const catName = document.getElementById('pCat').options[document.getElementById('pCat').selectedIndex].text;
-      const fileInput = document.getElementById('pImageFile');
+      const url = document.getElementById('pUrl').value; // የፎቶው ሊንክ
 
-      if (fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          const base64Image = event.target.result;
-          
-          const photos = getStoredPhotos();
-          photos.unshift({ id: Date.now(), title, cat, catName, url: base64Image });
-          
-          localStorage.setItem('sundayschool_photos', JSON.stringify(photos));
-          renderAdminList();
-          document.getElementById('addForm').reset();
-          alert('ፎቶው በስኬት ተጭኗል!');
-        };
-        reader.readAsDataURL(fileInput.files[0]);
-      }
+      const photos = getStoredPhotos();
+      photos.unshift({ id: Date.now(), title, cat, catName, url });
+      
+      localStorage.setItem('sundayschool_photos', JSON.stringify(photos));
+      renderAdminList();
+      this.reset();
+      alert('ፎቶው በስኬት ተጨምሯል!');
     });
 
     function deletePhoto(id) {
