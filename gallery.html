@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ጋለሪ - የሰንበት ትምህርት ቤት</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+    body { background-color: #f9f9f9; color: #333; }
+    
+    /* Header & Navigation */
+    header { background: #8b0000; color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { font-size: 1.2rem; }
+    header nav a { color: #fff; text-decoration: none; margin-left: 15px; font-size: 0.9rem; }
+    
+    .container { max-width: 1100px; margin: 30px auto; padding: 0 15px; }
+    
+    .section-title { text-align: center; margin-bottom: 25px; }
+    .section-title h2 { font-size: 1.8rem; color: #8b0000; margin-bottom: 8px; }
+    .section-title p { color: #666; font-size: 0.9rem; }
+
+    /* Filter Buttons */
+    .filter-buttons { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+    .filter-btn { background: #eee; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.85rem; transition: 0.3s; }
+    .filter-btn.active, .filter-btn:hover { background: #8b0000; color: #fff; }
+
+    /* Gallery Grid */
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .gallery-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.08); transition: transform 0.3s; }
+    .gallery-card:hover { transform: translateY(-5px); }
+    .gallery-card img { width: 100%; height: 200px; object-fit: cover; }
+    .gallery-info { padding: 15px; }
+    .gallery-info span { font-size: 0.75rem; color: #8b0000; font-weight: bold; text-transform: uppercase; }
+    .gallery-info h3 { font-size: 1rem; margin-top: 5px; color: #333; }
+
+    /* Footer */
+    footer { text-align: center; padding: 20px; background: #222; color: #aaa; margin-top: 50px; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1><i class="fa-solid fa-church"></i> ሰ/ት/ቤት ጋለሪ</h1>
+    <nav>
+      <a href="index.html"><i class="fa-solid fa-house"></i> መነሻ</a>
+      <a href="admin.html"><i class="fa-solid fa-lock"></i> አድሚን</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="section-title">
+      <h2>የፎቶዎች ማህደር (Gallery)</h2>
+      <p>የበዓላት፣ የመንፈሳዊ ጉዞዎች እና የትምህርት መርሃ-ግብሮች ምስሎች</p>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="filter-buttons">
+      <button class="filter-btn active" onclick="filterGallery('all', this)">ሁሉም</button>
+      <button class="filter-btn" onclick="filterGallery('holidays', this)">በዓላት</button>
+      <button class="filter-btn" onclick="filterGallery('trips', this)">መንፈሳዊ ጉዞ</button>
+      <button class="filter-btn" onclick="filterGallery('classes', this)">ትምህርትና መዝሙር</button>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="gallery-grid" id="publicGalleryGrid">
+      <!-- ፎቶዎች በ JavaScript እዚህ ይጫናሉ -->
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 የሰንበት ትምህርት ቤት ሚኒስቴር። መብቱ በህግ የተጠበቀ ነው።</p>
+  </footer>
+
+  <script>
+    // ነባሪ ፎቶዎች (አድሚኑ እስኪቀይራቸው የሚታዩ)
+    const defaultGalleryPhotos = [
+      { id: 1, title: "የደመራ በዓል አከባበር", cat: "holidays", catName: "በዓላት", url: "https://images.unsplash.com/photo-1548625149-fc4a29cf7092?auto=format&fit=crop&w=600&q=80" },
+      { id: 2, title: "የሰንበት ትምህርት ጥናት", cat: "classes", catName: "ትምህርትና መዝሙር", url: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=600&q=80" },
+      { id: 3, title: "ወደ ቅዱስ ቦታዎች የተደረገ ጉዞ", cat: "trips", catName: "መንፈሳዊ ጉዞ", url: "https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=600&q=80" }
+    ];
+
+    function loadPublicGallery(filter = 'all') {
+      const grid = document.getElementById('publicGalleryGrid');
+      let photos = JSON.parse(localStorage.getItem('sundayschool_photos'));
+      
+      if (!photos) {
+        photos = defaultGalleryPhotos;
+        localStorage.setItem('sundayschool_photos', JSON.stringify(photos));
+      }
+
+      grid.innerHTML = '';
+
+      const filteredPhotos = filter === 'all' ? photos : photos.filter(p => p.cat === filter);
+
+      if (filteredPhotos.length === 0) {
+        grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 30px;">ምንም ፎቶዎች አልተገኙም።</p>`;
+        return;
+      }
+
+      filteredPhotos.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'gallery-card';
+        card.innerHTML = `
+          <img src="${item.url}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/300?text=Image+Error'">
+          <div class="gallery-info">
+            <span>${item.catName}</span>
+            <h3>${item.title}</h3>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function filterGallery(category, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      loadPublicGallery(category);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => loadPublicGallery('all'));
+  </script>
+</body>
+</html>
