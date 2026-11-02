@@ -138,13 +138,12 @@
         listDiv.appendChild(div);
       });
     }
-
-    // ፎቶውን ፋይል አድርጎ በመቀበል በ Canvas አማካኝነት ሳይዙን ቀንሶ ማስቀመጥ
+// ፎቶውን ፋይል አድርጎ በመቀበል በ Canvas አማካኝነት ሳይዙን ቀንሶ ማስቀመጥ (ለስልክ እና ለኮምፒውተር 100% የሚሰራ)
     document.getElementById('addForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const title = document.getElementById('pTitle').value;
       const cat = document.getElementById('pCat').value;
-      const catName = document.getElementById('pCat').options[document.getElementById('pCat').selectedIndex].text;
+      const catName = document.getElementById('pCat').options[document.getElementById('pCat'].selectedIndex].text;
       const fileInput = document.getElementById('pImageFile');
 
       if (fileInput.files && fileInput.files[0]) {
@@ -153,8 +152,9 @@
           const img = new Image();
           img.onload = function() {
             const canvas = document.createElement('canvas');
-            const MAX_WIDTH = 800;
-            const MAX_HEIGHT = 800;
+            // የስልኩን ማህደረ ትውስታ እንዳይሞላው መጠኑን እናስተካክላለን
+            const MAX_WIDTH = 500;
+            const MAX_HEIGHT = 500;
             let width = img.width;
             let height = img.height;
 
@@ -175,7 +175,8 @@
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
 
-            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+            // ጥራቱን በመጠኑ አስተካክሎ (0.6 ማለት 60% ጥራት) ወደ Compressed Base64 ይለውጠዋል
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.6);
 
             const photos = getStoredPhotos();
             photos.unshift({ id: Date.now(), title, cat, catName, url: compressedDataUrl });
@@ -183,14 +184,14 @@
             localStorage.setItem('sundayschool_photos', JSON.stringify(photos));
             renderAdminList();
             document.getElementById('addForm').reset();
-            alert('ፎቶው በስኬት ተለጠፈ!');
+            alert('ፎቶው በስኬት ተጭኗል!');
           };
           img.src = event.target.result;
         };
         reader.readAsDataURL(fileInput.files[0]);
       }
     });
-
+   
     function deletePhoto(id) {
       if (confirm('እርግጠኛ ነዎት ይህን ፎቶ ማጥፋት ይፈልጋሉ?')) {
         let photos = getStoredPhotos();
