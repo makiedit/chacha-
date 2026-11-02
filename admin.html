@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>የአድሚን ማስተዳደሪያ ገጽ</title>
+  <title>የማስታወቂያ ማስተዳደሪያ ገጽ</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
@@ -21,13 +21,13 @@
     
     .form-group { margin-bottom: 12px; }
     .form-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
-    .form-group input, .form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
     
-    .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
-    .photo-item { background: #fff; border: 1px solid #ddd; border-radius: 6px; overflow: hidden; text-align: center; padding-bottom: 10px; }
-    .photo-item img { width: 100%; height: 140px; object-fit: cover; }
-    .photo-item h4 { font-size: 0.9rem; margin: 8px 5px; }
-    .photo-item p { font-size: 0.75rem; color: #777; margin-bottom: 8px; }
+    .announcement-list { margin-top: 15px; }
+    .announcement-item { background: #fff; border: 1px solid #ddd; border-left: 4px solid #8b0000; padding: 15px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .ann-info h4 { font-size: 1rem; color: #333; margin-bottom: 5px; }
+    .ann-info p { font-size: 0.85rem; color: #666; }
+    .ann-info small { font-size: 0.75rem; color: #999; }
   </style>
 </head>
 <body>
@@ -47,41 +47,37 @@
     <div id="adminDash" style="display: none;">
       
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h2><i class="fa-solid fa-user-shield"></i> የፎቶዎች ማስተዳደሪያ</h2>
+        <h2><i class="fa-solid fa-user-shield"></i> የሰንበት ትምህርት ቤት ማስታወቂያዎች ማስተዳደሪያ</h2>
         <div>
           <a href="index.html" class="btn btn-secondary" target="_blank"><i class="fa-solid fa-eye"></i> ገጹን እይ</a>
           <button onclick="logout()" class="btn" style="background:#888; color:#fff;">ውጣ</button>
         </div>
       </div>
 
-      <!-- አዲስ ፎቶ መጫኛ ፎርም -->
+      <!-- አዲስ ማስታወቂያ መጫኛ ፎርም -->
       <div class="admin-card">
-        <h3><i class="fa-solid fa-plus-circle"></i> አዲስ ፎቶ ከስልክ/ኮምፒውተር ጫን</h3>
-        <form id="addForm" style="margin-top:15px;">
+        <h3><i class="fa-solid fa-bullhorn"></i> አዲስ ማስታወቂያ ልቀቅ</h3>
+        <form id="annForm" style="margin-top:15px;">
           <div class="form-group">
-            <label>የፎቶው ርዕስ</label>
-            <input type="text" id="pTitle" placeholder="ለምሳሌ፡ የደመራ በዓል" required>
+            <label>ቀን (ለምሳሌ፡ 15 መስከረም)</label>
+            <input type="text" id="annDate" placeholder="ለምሳሌ፡ 20 ጥቅምት" required>
           </div>
           <div class="form-group">
-            <label>ምድብ (Category)</label>
-            <select id="pCat">
-              <option value="holidays">በዓላት</option>
-              <option value="trips">መንፈሳዊ ጉዞ</option>
-              <option value="classes">ትምህርትና መዝሙር</option>
-            </select>
+            <label>የማስታወቂያ ርዕስ</label>
+            <input type="text" id="annTitle" placeholder="ለምሳሌ፡ የአዲስ ተማሪዎች ምዝገባ ጀመረ" required>
           </div>
           <div class="form-group">
-            <label>ፎቶ ይምረጡ (Choose Image File)</label>
-            <input type="file" id="pImageFile" accept="image/*" required style="padding: 5px; background: #fafafa;">
+            <label>ዝርዝር መግለጫ</label>
+            <textarea id="annDesc" rows="3" placeholder="ስለ ማስታወቂያው ዝርዝር መረጃ እዚህ ይጻፉ..." required></textarea>
           </div>
-          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-upload"></i> ፎቶውን ጫን</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> ማስታወቂያውን ለጥፍ</button>
         </form>
       </div>
 
-      <!-- የፎቶዎች ዝርዝርና ማጥፊያ -->
+      <!-- የነበሩ ማስታወቂያዎች ዝርዝርና ማጥፊያ -->
       <div class="admin-card">
-        <h3><i class="fa-solid fa-images"></i> የነበሩ ፎቶዎች (<span id="count">0</span>)</h3>
-        <div class="photo-grid" id="adminPhotoList"></div>
+        <h3><i class="fa-solid fa-list"></i> የነበሩ ማስታወቂያዎች (<span id="count">0</span>)</h3>
+        <div class="announcement-list" id="adminAnnList"></div>
       </div>
 
     </div>
@@ -91,21 +87,21 @@
   <script>
     const PASS = "1234";
 
-    const defaultPhotos = [
-      { id: 1, title: "የደመራ በዓል አከባበር", cat: "holidays", catName: "በዓላት", url: "https://images.unsplash.com/photo-1548625149-fc4a29cf7092?auto=format&fit=crop&w=600&q=80" },
-      { id: 2, title: "የሰንበት ትምህርት ጥናት", cat: "classes", catName: "ትምህርትና መዝሙር", url: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=600&q=80" }
+    const defaultAnnouncements = [
+      { id: 1, date: "15 መስከረም", title: "የአዲስ ተማሪዎች ምዝገባ ተጀመረ", desc: "ሁሉም ጥርጊያውን ተከትሎ መጥቶ መመዝገብ ይችላል።" },
+      { id: 2, date: "20 መስከረም", title: "ልዩ የመዝሙር የሊቃውንት ጉባኤ", desc: "እሁድ ከሰዓት በኋላ በቤተክርስቲያናችን አዳራሽ ይካሄዳል።" }
     ];
 
-    function getStoredPhotos() {
+    function getStoredAnnouncements() {
       try {
-        const stored = localStorage.getItem('sundayschool_photos');
+        const stored = localStorage.getItem('sundayschool_announcements');
         if (!stored) {
-          localStorage.setItem('sundayschool_photos', JSON.stringify(defaultPhotos));
-          return defaultPhotos;
+          localStorage.setItem('sundayschool_announcements', JSON.stringify(defaultAnnouncements));
+          return defaultAnnouncements;
         }
         return JSON.parse(stored);
       } catch (e) {
-        return defaultPhotos;
+        return defaultAnnouncements;
       }
     }
 
@@ -114,7 +110,7 @@
       if (input === PASS) {
         document.getElementById('loginCard').style.display = 'none';
         document.getElementById('adminDash').style.display = 'block';
-        renderAdminList();
+        renderAdminAnnList();
       } else {
         document.getElementById('errMsg').style.display = 'block';
       }
@@ -124,118 +120,52 @@
       location.reload();
     }
 
-    function renderAdminList() {
-      const photos = getStoredPhotos();
-      const listDiv = document.getElementById('adminPhotoList');
-      document.getElementById('count').innerText = photos.length;
+    function renderAdminAnnList() {
+      const anns = getStoredAnnouncements();
+      const listDiv = document.getElementById('adminAnnList');
+      document.getElementById('count').innerText = anns.length;
       listDiv.innerHTML = '';
 
-      photos.forEach(item => {
+      anns.forEach(item => {
         const div = document.createElement('div');
-        div.className = 'photo-item';
+        div.className = 'announcement-item';
         div.innerHTML = `
-          <img src="${item.url}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/150?text=Error'">
-          <h4>${item.title}</h4>
-          <p>${item.catName}</p>
-          <button class="btn btn-danger" onclick="deletePhoto(${item.id})"><i class="fa-solid fa-trash"></i> አጥፋ</button>
+          <div class="ann-info">
+            <small><i class="fa-solid fa-calendar-days"></i> ${item.date}</small>
+            <h4>${item.title}</h4>
+            <p>${item.desc}</p>
+          </div>
+          <button class="btn btn-danger" onclick="deleteAnnouncement(${item.id})"><i class="fa-solid fa-trash"></i> አጥፋ</button>
         `;
         listDiv.appendChild(div);
       });
     }
 
-    // ፎቶውን ፋይል አድርጎ በመቀበል በ Canvas አማካኝነት ሳይዙን ቀንሶ ማስቀመጥ (ለስልክ እና ለኮምፒውተር)
-    document.getElementById('addForm').addEventListener('submit', function(e) {
+    // ማስታወቂያ መጨመር
+    document.getElementById('annForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const title = document.getElementById('pTitle').value;
-      const cat = document.getElementById('pCat').value;
-      const catName = document.getElementById('pCat').options[document.getElementById('pCat').selectedIndex].text;
-      const fileInput = document.getElementById('pImageFile');
+      const date = document.getElementById('annDate').value;
+      const title = document.getElementById('annTitle').value;
+      const desc = document.getElementById('annDesc').value;
 
-      if (fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          const img = new Image();
-          img.onload = function() {
-            const canvas = document.createElement('canvas');
-            const MAX_WIDTH = 600;
-            const MAX_HEIGHT = 600;
-            let width = img.width;
-            let height = img.height;
-
-            if (width > height) {
-              if (width > MAX_WIDTH) {
-                height *= MAX_WIDTH / width;
-                width = MAX_WIDTH;
-              }
-            } else {
-              if (height > MAX_HEIGHT) {
-                width *= MAX_HEIGHT / height;
-                height = MAX_HEIGHT;
-              }
-            }
-
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-
-            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.6);
-
-            const photos = getStoredPhotos();
-            photos.unshift({ id: Date.now(), title, cat, catName, url: compressedDataUrl });
-            
-            localStorage.setItem('sundayschool_photos', JSON.stringify(photos));
-            renderAdminList();
-            document.getElementById('addForm').reset();
-            alert('ፎቶው በስኬት ተጭኗል!');
-          };
-          img.src = event.target.result;
-        };
-        reader.readAsDataURL(fileInput.files[0]);
-      }
+      const anns = getStoredAnnouncements();
+      anns.unshift({ id: Date.now(), date, title, desc });
+      
+      localStorage.setItem('sundayschool_announcements', JSON.stringify(anns));
+      renderAdminAnnList();
+      this.reset();
+      alert('ማስታወቂያው በስኬት ተለጠፈ!');
     });
 
-    function deletePhoto(id) {
-      if (confirm('እርግጠኛ ነዎት ይህን ፎቶ ማጥፋት ይፈልጋሉ?')) {
-        let photos = getStoredPhotos();
-        photos = photos.filter(p => p.id !== id);
-        localStorage.setItem('sundayschool_photos', JSON.stringify(photos));
-        renderAdminList();
+    // ማስታወቂያ ማጥፋት
+    function deleteAnnouncement(id) {
+      if (confirm('እርግጠኛ ነዎት ይህን ማስታወቂያ ማጥፋት ይፈልጋሉ?')) {
+        let anns = getStoredAnnouncements();
+        anns = anns.anns.filter ? anns.filter(a => a.id !== id) : anns.filter(a => a.id !== id);
+        localStorage.setItem('sundayschool_announcements', JSON.stringify(anns));
+        renderAdminAnnList();
       }
     }
   </script>
-  <script>
-  function loadGallery() {
-    const galleryGrid = document.getElementById('galleryGrid');
-    if (!galleryGrid) return;
-
-    const photos = JSON.parse(localStorage.getItem('sundayschool_photos')) || [
-      { id: 1, title: "የደመራ በዓል አከባበር", cat: "holidays", catName: "በዓላት", url: "https://images.unsplash.com/photo-1548625149-fc4a29cf7092?auto=format&fit=crop&w=600&q=80" },
-      { id: 2, title: "የሰንበት ትምህርት ጥናት", cat: "classes", catName: "ትምህርትና መዝሙር", url: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=600&q=80" }
-    ];
-    
-    galleryGrid.innerHTML = '';
-    photos.forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'gallery-card';
-      card.setAttribute('data-category', item.cat);
-      card.innerHTML = `
-        <div class="gallery-img-box">
-          <img src="${item.url}" alt="${item.title}">
-          <div class="gallery-overlay">
-            <span class="g-category">${item.catName}</span>
-            <h4>${item.title}</h4>
-            <div class="g-actions">
-              <a href="${item.url}" target="_blank" class="g-btn"><i class="fa-solid fa-expand"></i></a>
-            </div>
-          </div>
-        </div>
-      `;
-      galleryGrid.appendChild(card);
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', loadGallery);
-</script>
 </body>
 </html>
