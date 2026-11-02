@@ -420,5 +420,35 @@
   // ገጹ እንደተከፈተ ፎቶዎቹን ይጭናል
   document.addEventListener('DOMContentLoaded', loadGallery);
 </script>
+  <script>
+  function loadHomeAnnouncements() {
+    // የማስታወቂያዎች ማሳያ ኮንቴነር በ index.html ላይ እንዲኖርህ ያረጋግጡ
+    const annContainer = document.getElementById('homeAnnouncementsContainer');
+    if (!annContainer) return;
+
+    const anns = JSON.parse(localStorage.getItem('sundayschool_announcements')) || [
+      { id: 1, date: "15 መስከረም", title: "የአዲስ ተማሪዎች ምዝገባ ተጀመረ", desc: "ሁሉም ጥርጊያውን ተከትሎ መጥቶ መመዝገብ ይችላል።" },
+      { id: 2, date: "20 መስከረም", title: "ልዩ የመዝሙር የሊቃውንት ጉባኤ", desc: "እሁድ ከሰዓት በኋላ በቤተክርስቲያናችን አዳራሽ ይካሄዳል።" }
+    ];
+
+    annContainer.innerHTML = '';
+    anns.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'announcement-card'; // የ CSS ስታይልዎ እንዳለ ይቆያል
+      card.innerHTML = `
+        <div class="ann-date-box">
+          <span>${item.date}</span>
+        </div>
+        <div class="ann-content">
+          <h3>${item.title}</h3>
+          <p>${item.desc}</p>
+        </div>
+      `;
+      annContainer.appendChild(card);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', loadHomeAnnouncements);
+</script>
 </body>
 </html>
