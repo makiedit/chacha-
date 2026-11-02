@@ -54,7 +54,7 @@
         </div>
       </div>
 
-      <!-- አዲስ ፎቶ መጫኛ ፎርም (ሊንክ ሳይሆን ፋይል የሚቀበል) -->
+      <!-- አዲስ ፎቶ መጫኛ ፎርም -->
       <div class="admin-card">
         <h3><i class="fa-solid fa-plus-circle"></i> አዲስ ፎቶ ከስልክ/ኮምፒውተር ጫን</h3>
         <form id="addForm" style="margin-top:15px;">
@@ -74,7 +74,7 @@
             <label>ፎቶ ይምረጡ (Choose Image File)</label>
             <input type="file" id="pImageFile" accept="image/*" required style="padding: 5px; background: #fafafa;">
           </div>
-          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-upload"></i> ፎቶውን ለጥፍ (ጫን)</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-upload"></i> ፎቶውን ጫን</button>
         </form>
       </div>
 
@@ -89,7 +89,7 @@
   </div>
 
   <script>
-    const PASS = "2319";
+    const PASS = "1234";
 
     const defaultPhotos = [
       { id: 1, title: "የደመራ በዓል አከባበር", cat: "holidays", catName: "በዓላት", url: "https://images.unsplash.com/photo-1548625149-fc4a29cf7092?auto=format&fit=crop&w=600&q=80" },
@@ -97,12 +97,16 @@
     ];
 
     function getStoredPhotos() {
-      const stored = localStorage.getItem('sundayschool_photos');
-      if (!stored) {
-        localStorage.setItem('sundayschool_photos', JSON.stringify(defaultPhotos));
+      try {
+        const stored = localStorage.getItem('sundayschool_photos');
+        if (!stored) {
+          localStorage.setItem('sundayschool_photos', JSON.stringify(defaultPhotos));
+          return defaultPhotos;
+        }
+        return JSON.parse(stored);
+      } catch (e) {
         return defaultPhotos;
       }
-      return JSON.parse(stored);
     }
 
     function login() {
@@ -138,12 +142,13 @@
         listDiv.appendChild(div);
       });
     }
-// ፎቶውን ፋይል አድርጎ በመቀበል በ Canvas አማካኝነት ሳይዙን ቀንሶ ማስቀመጥ (ለስልክ እና ለኮምፒውተር 100% የሚሰራ)
+
+    // ፎቶውን ፋይል አድርጎ በመቀበል በ Canvas አማካኝነት ሳይዙን ቀንሶ ማስቀመጥ (ለስልክ እና ለኮምፒውተር)
     document.getElementById('addForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const title = document.getElementById('pTitle').value;
       const cat = document.getElementById('pCat').value;
-      const catName = document.getElementById('pCat').options[document.getElementById('pCat'].selectedIndex].text;
+      const catName = document.getElementById('pCat').options[document.getElementById('pCat').selectedIndex].text;
       const fileInput = document.getElementById('pImageFile');
 
       if (fileInput.files && fileInput.files[0]) {
@@ -152,9 +157,8 @@
           const img = new Image();
           img.onload = function() {
             const canvas = document.createElement('canvas');
-            // የስልኩን ማህደረ ትውስታ እንዳይሞላው መጠኑን እናስተካክላለን
-            const MAX_WIDTH = 500;
-            const MAX_HEIGHT = 500;
+            const MAX_WIDTH = 600;
+            const MAX_HEIGHT = 600;
             let width = img.width;
             let height = img.height;
 
@@ -175,7 +179,6 @@
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
 
-            // ጥራቱን በመጠኑ አስተካክሎ (0.6 ማለት 60% ጥራት) ወደ Compressed Base64 ይለውጠዋል
             const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.6);
 
             const photos = getStoredPhotos();
@@ -191,7 +194,7 @@
         reader.readAsDataURL(fileInput.files[0]);
       }
     });
-   
+
     function deletePhoto(id) {
       if (confirm('እርግጠኛ ነዎት ይህን ፎቶ ማጥፋት ይፈልጋሉ?')) {
         let photos = getStoredPhotos();
@@ -201,5 +204,38 @@
       }
     }
   </script>
+  <script>
+  function loadGallery() {
+    const galleryGrid = document.getElementById('galleryGrid');
+    if (!galleryGrid) return;
+
+    const photos = JSON.parse(localStorage.getItem('sundayschool_photos')) || [
+      { id: 1, title: "የደመራ በዓል አከባበር", cat: "holidays", catName: "በዓላት", url: "https://images.unsplash.com/photo-1548625149-fc4a29cf7092?auto=format&fit=crop&w=600&q=80" },
+      { id: 2, title: "የሰንበት ትምህርት ጥናት", cat: "classes", catName: "ትምህርትና መዝሙር", url: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=600&q=80" }
+    ];
+    
+    galleryGrid.innerHTML = '';
+    photos.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'gallery-card';
+      card.setAttribute('data-category', item.cat);
+      card.innerHTML = `
+        <div class="gallery-img-box">
+          <img src="${item.url}" alt="${item.title}">
+          <div class="gallery-overlay">
+            <span class="g-category">${item.catName}</span>
+            <h4>${item.title}</h4>
+            <div class="g-actions">
+              <a href="${item.url}" target="_blank" class="g-btn"><i class="fa-solid fa-expand"></i></a>
+            </div>
+          </div>
+        </div>
+      `;
+      galleryGrid.appendChild(card);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', loadGallery);
+</script>
 </body>
 </html>
