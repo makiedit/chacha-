@@ -54,9 +54,9 @@
         </div>
       </div>
 
-      <!-- አዲስ ፎቶ መጫኛ ፎርም (ፋይል ብቻ የሚቀበል) -->
+      <!-- አዲስ ፎቶ መጫኛ ፎርም (ሊንክ ሳይሆን ፋይል የሚቀበል) -->
       <div class="admin-card">
-        <h3><i class="fa-solid: fa-plus-circle"></i> አዲስ ፎቶ ከስልኮ/ኮምፒውተር ጨምር</h3>
+        <h3><i class="fa-solid fa-plus-circle"></i> አዲስ ፎቶ ከስልክ/ኮምፒውተር ጫን</h3>
         <form id="addForm" style="margin-top:15px;">
           <div class="form-group">
             <label>የፎቶው ርዕስ</label>
@@ -71,9 +71,12 @@
             </select>
           </div>
           <div class="form-group">
-  <label>የፎቶው ሊንክ (URL) - (ለምሳሌ፡ ከ Telegram ወይም Google የተወሰደ)</label>
-  <input type="url" id="pUrl" placeholder="https://..." required>
-</div>
+            <label>ፎቶ ይምረጡ (Choose Image File)</label>
+            <input type="file" id="pImageFile" accept="image/*" required style="padding: 5px; background: #fafafa;">
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-upload"></i> ፎቶውን ለጥፍ (ጫን)</button>
+        </form>
+      </div>
 
       <!-- የፎቶዎች ዝርዝርና ማጥፊያ -->
       <div class="admin-card">
@@ -127,7 +130,7 @@
         const div = document.createElement('div');
         div.className = 'photo-item';
         div.innerHTML = `
-          <img src="${item.url}" alt="${item.title}">
+          <img src="${item.url}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/150?text=Error'">
           <h4>${item.title}</h4>
           <p>${item.catName}</p>
           <button class="btn btn-danger" onclick="deletePhoto(${item.id})"><i class="fa-solid fa-trash"></i> አጥፋ</button>
@@ -136,21 +139,56 @@
       });
     }
 
-    // ፎቶውን በ URL (ሊንክ) መቀበል እና ማስቀመጥ
+    // ፎቶውን ፋይል አድርጎ በመቀበል በ Canvas አማካኝነት ሳይዙን ቀንሶ ማስቀመጥ
     document.getElementById('addForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const title = document.getElementById('pTitle').value;
       const cat = document.getElementById('pCat').value;
       const catName = document.getElementById('pCat').options[document.getElementById('pCat').selectedIndex].text;
-      const url = document.getElementById('pUrl').value; // የፎቶው ሊንክ
+      const fileInput = document.getElementById('pImageFile');
 
-      const photos = getStoredPhotos();
-      photos.unshift({ id: Date.now(), title, cat, catName, url });
-      
-      localStorage.setItem('sundayschool_photos', JSON.stringify(photos));
-      renderAdminList();
-      this.reset();
-      alert('ፎቶው በስኬት ተጨምሯል!');
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const img = new Image();
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 800;
+            const MAX_HEIGHT = 800;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height) {
+              if (width > MAX_WIDTH) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+              }
+            } else {
+              if (height > MAX_HEIGHT) {
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
+              }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+
+            const photos = getStoredPhotos();
+            photos.unshift({ id: Date.now(), title, cat, catName, url: compressedDataUrl });
+            
+            localStorage.setItem('sundayschool_photos', JSON.stringify(photos));
+            renderAdminList();
+            document.getElementById('addForm').reset();
+            alert('ፎቶው በስኬት ተለጠፈ!');
+          };
+          img.src = event.target.result;
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      }
     });
 
     function deletePhoto(id) {
